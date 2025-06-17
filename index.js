@@ -9,6 +9,8 @@ app.use(cors());
 
 app.use(express.json());
 
+const url = "https://chatgpt-backend-6uyd.onrender.com";
+
 app.get('/', (req, res) => {
     res.send('this is the server');
 });
@@ -18,7 +20,9 @@ app.post('/', (req, res) => {
     res.json(req.body.question);
 })
 
-app.listen(3000, () => {
+
+
+app.listen(url, () => {
     console.log('server is listening on http://localhost:3000');
 });
 
