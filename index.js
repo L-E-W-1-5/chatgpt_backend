@@ -1,6 +1,13 @@
-const express = require('express');
+//const express = require('express');
+import express from "express";
+// import morgan from "morgan";
+import cors from 'cors'
 
 const app = express();
+
+app.use(cors());
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('this is the server');
@@ -8,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     console.log(req.body);
-    res.send(req.body.question);
+    res.json(req.body.question);
 })
 
 app.listen(3000, () => {
