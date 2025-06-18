@@ -1,28 +1,34 @@
 
 import express from "express";
-// import morgan from "morgan";
+import morgan from "morgan";
 import cors from 'cors'
-
-// require('dotenv').config();
+import nodemailer from 'nodemailer';
 import 'dotenv/config';
-
 import OpenAI from "openai";
+import {env} from 'node:process';
 
 const client = new OpenAI({apiKey: 'My API Key'});
 
 const app = express();
 
+const email = env.EMAIL;
+const password = env.EMAIL_PASS;
+
 app.use(cors());
+
+app.use(morgan('dev'));
 
 app.use(express.json());
 
 
-
+// Test GET Endpoint - may need a get feature in the future.
 app.get('/', (req, res) => {
     res.send('this is the server');
 });
 
-app.post('/', (req, res) => {
+
+// Test POST endpoint - may need a standard post feature in the future.
+app.post('/', (req, res) => {           
     console.log(req.body);
 
     const question = req.body.question.trim();
@@ -38,9 +44,69 @@ app.post('/', (req, res) => {
         "question": question
     });
 
+});
+
+
+// Email Endpoint
+app.post('/email', (req, res) => {
+
+    console.log(req.body);
+
+    const subject = req.body.subject;
+    const recipient = req.body.recipient;
+    const content = req.body.content;
+
+    console.log(subject, recipient, content);
+
+    if(subject && recipient && content){
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: email,
+                pass: password
+            },
+        });
+
+        transporter.sendMail({
+
+            from: `email from`,
+            to: recipient,
+            subject: subject,
+            text: content
+
+        }, function(error, info){
+
+            if(error){
+
+                console.log(error);
+
+                res.send({
+                    success: false,
+                    payload: error,
+                });
+
+            } else{
+
+                console.log(info);
+
+                res.send({
+                    success: true,
+                    payload: info,
+                });
+            }
+        })
+    } else {
+
+        res.send({
+            success: false,
+            payload: "Necessary fields not completed."
+        })
+    }
 })
 
 
+// API Endpoint 
 app.post('api', async(req, res) => {
 
     const question = req.body.question.trim();
