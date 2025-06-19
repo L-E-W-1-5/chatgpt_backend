@@ -42,9 +42,9 @@ app.post('/', (req, res) => {
 
     //console.log(charCount, req.body.question);
 
-    const data = req.body.content[0].question;
+    const data = req.body.question;
 
-    console.log(req.body.content[0])
+    //console.log(req.body.content[0])
 
     res.json({
 
