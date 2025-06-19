@@ -122,6 +122,8 @@ app.post('/email', (req, res) => {
 // API Endpoint 
 app.post('/api', async(req, res) => {
 
+    console.log(req.body);
+
     const question = req.body.question.trim();
 
     console.log(req.body);
