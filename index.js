@@ -28,6 +28,13 @@ app.use(cors({
     credentials: true,
 }));
 
+// const app = express();
+// app.use(cors({
+//         origin: "https://slug-panel.onrender.com"
+//     }
+// ))
+app.options('*', cors())
+
 app.use(morgan('dev'));
 
 app.use(express.json());
