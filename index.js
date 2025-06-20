@@ -15,6 +15,8 @@ const client = new OpenAI({apiKey: api_key});
 
 const app = express();
 
+//app.options('*', cors());
+//TODO: is this the problem?
 
 //Dev
 //app.use(cors());
@@ -33,7 +35,7 @@ app.use(cors({
 //         origin: "https://slug-panel.onrender.com"
 //     }
 // ))
-app.options('*', cors())
+
 
 app.use(morgan('dev'));
 
