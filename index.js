@@ -97,7 +97,7 @@ app.post('/email', (req, res) => {
 
         transporter.sendMail({
 
-            from: `email from`,
+            from: email,
             to: recipient,
             subject: subject,
             text: text
