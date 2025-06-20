@@ -16,8 +16,17 @@ const client = new OpenAI({apiKey: api_key});
 const app = express();
 
 
+//Dev
+//app.use(cors());
 
-app.use(cors());
+//TODO: This needs to change from dev to production each time.
+
+//Production
+app.use(cors({
+    origin: "https://chatgpt-backend-6uyd.onrender.com",
+    headers: ["Content-Type"],
+    credentials: true,
+}));
 
 app.use(morgan('dev'));
 
@@ -31,30 +40,26 @@ app.get('/', (req, res) => {
 
 
 // Test POST endpoint - may need a standard post feature in the future.
-app.post('/', (req, res) => {           
+app.post('/', (req, res) => {   
+
     console.log(req.body);
 
-    //const question = req.body.question.trim();
+    const question = req.body.data.question.trim();
 
-    //var cleanedText = question.replace(/\s+/g, '');
+    var cleanedText = question.replace(/\s+/g, '');
 
-    //const charCount = cleanedText.length;
+    const charCount = cleanedText.length;
 
-    //console.log(charCount, req.body.question);
+    console.log(charCount, question);
 
-    const data = req.body.question;
+    //const data = req.body.question;
 
-    //console.log(req.body.content[0])
 
     res.json({
-
-         success: true,
-        payload: data,
-        response_id: data
       
-        // success: charCount,
-        // payload: question,
-        // response_id: "55aa"
+        success: charCount,
+        payload: question,
+        response_id: "55aa"
     });
 
 });
@@ -122,31 +127,30 @@ app.post('/email', (req, res) => {
 // API Endpoint 
 app.post('/api', async(req, res) => {
 
-    console.log(req.body);
 
-    const question = req.body.question.trim();
+    const question = req.body.data.question.trim();
 
-    console.log(req.body);
+    console.log(req.body.data);
 
-    // var previous_id;
+    var previous_id;
 
-    // if(req.body.previous_id != null){
+    if(req.body.data.previous_id != null){
 
-    //     previous_id = req.body.previous_id;
+        previous_id = req.body.data.previous_id;
 
-    // }else {
+    }else {
 
-    //     previous_id = "";
+        previous_id = null;
        
-    // }
+    }
 
-    console.log(question);
+    console.log(previous_id);
 
     const response = await client.responses.create({
         model: "gpt-4.1-nano",
         input: question,
         max_output_tokens: 100,
-        // previous_response_id: previous_id
+        previous_response_id: previous_id
     });
 
     console.log(response);
