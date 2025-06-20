@@ -19,16 +19,16 @@ const app = express();
 //TODO: is this the problem?
 
 //Dev
-//app.use(cors());
+app.use(cors());
 
 //TODO: This needs to change from dev to production each time.
 
 //Production
-app.use(cors({
-    origin: "https://chatgpt-backend-6uyd.onrender.com",
-    headers: ["Content-Type"],
-    credentials: true,
-}));
+// app.use(cors({
+//     origin: "https://chatgpt-backend-6uyd.onrender.com",
+//     headers: ["Content-Type"],
+//     credentials: true,
+// }));
 
 // const app = express();
 // app.use(cors({
