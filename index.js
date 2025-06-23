@@ -99,7 +99,7 @@ try {
 
         transporter.sendMail({
 
-            from: `email from`,
+            from: email,
             to: recipient,
             subject: subject,
             text: text
@@ -172,7 +172,7 @@ app.post('/api', async(req, res) => {
     const response = await client.responses.create({
         model: "gpt-4.1-nano",
         input: question,
-        max_output_tokens: 100,
+        max_output_tokens: 500,
         previous_response_id: previous_id
     });
 
