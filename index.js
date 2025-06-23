@@ -21,20 +21,7 @@ const app = express();
 //Dev
 app.use(cors());
 
-//TODO: This needs to change from dev to production each time... might not work!
 
-//Production
-// app.use(cors({
-//     origin: "https://chatgpt-backend-6uyd.onrender.com",
-//     headers: ["Content-Type"],
-//     credentials: true,
-// }));
-
-// const app = express();
-// app.use(cors({
-//         origin: "https://slug-panel.onrender.com"
-//     }
-// ))
 
 
 app.use(morgan('dev'));
