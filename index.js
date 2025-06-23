@@ -21,7 +21,7 @@ const app = express();
 //Dev
 app.use(cors());
 
-//TODO: This needs to change from dev to production each time.
+//TODO: This needs to change from dev to production each time... might not work!
 
 //Production
 // app.use(cors({
@@ -68,7 +68,7 @@ app.post('/', (req, res) => {
       
         success: charCount,
         payload: question,
-        response_id: "55aa"
+        response_id: Math.floor(Math.random() * 100)
     });
 
 });
@@ -84,6 +84,8 @@ app.post('/email', (req, res) => {
     const text = req.body.text;
 
     console.log(subject, recipient, text);
+
+try {
 
     if(subject && recipient && text){
 
@@ -123,13 +125,23 @@ app.post('/email', (req, res) => {
                 });
             }
         })
+    
     } else {
 
         res.send({
             success: false,
             payload: "Necessary fields not completed."
-        })
+        });
     }
+
+}catch{
+    res.status(500).send({
+        success: false,
+        payload: "email send failed."
+    });
+
+}
+
 })
 
 
