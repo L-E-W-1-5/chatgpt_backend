@@ -159,7 +159,7 @@ app.post('/api', async(req, res) => {
     const response = await client.responses.create({
         model: "gpt-4.1-nano",
         input: question,
-        max_output_tokens: 500,
+        max_output_tokens: 800,
         previous_response_id: previous_id
     });
 
