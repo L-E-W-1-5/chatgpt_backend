@@ -31,7 +31,7 @@ app.use(express.json());
 
 // Test GET Endpoint - may need a get feature in the future.
 app.get('/', (req, res) => {
-    res.send('this is the server');
+    res.send('server is ready');
 });
 
 
@@ -97,7 +97,7 @@ try {
 
                 console.log(error);
 
-                res.send({
+                res.status(500).send({
                     success: false,
                     payload: error,
                 });
@@ -106,7 +106,7 @@ try {
 
                 console.log(info);
 
-                res.send({
+                res.status(200).send({
                     success: true,
                     payload: info,
                 });
@@ -115,7 +115,7 @@ try {
     
     } else {
 
-        res.send({
+        res.status(400).send({
             success: false,
             payload: "Necessary fields not completed."
         });
@@ -135,8 +135,6 @@ try {
 // API Endpoint 
 app.post('/api', async(req, res) => {
 
-    //TODO: Create an isLoading screen.
-
 
     const question = req.body.data.question.trim();
 
@@ -144,48 +142,55 @@ app.post('/api', async(req, res) => {
 
     var previous_id;
 
-    if(req.body.data.previous_id != null){
+    try{
 
-        previous_id = req.body.data.previous_id;
+        if(req.body.data.previous_id != null){
 
-    }else {
+            previous_id = req.body.data.previous_id;
 
-        previous_id = null;
+        }else {
+
+            previous_id = null;
        
-    }
+        }
 
-    console.log(previous_id);
+        console.log(previous_id);
 
-    const response = await client.responses.create({
-        model: "gpt-4.1-nano",
-        input: question,
-        max_output_tokens: 800,
-        previous_response_id: previous_id
-    });
+        const response = await client.responses.create({
+            model: "gpt-4.1-nano",
+            input: question,
+            max_output_tokens: 800,
+            previous_response_id: previous_id
+        });
 
-    console.log(response);
-    console.log(response.output_text);
-    console.log(response.id)
+        console.log(response);
+        console.log(response.output_text);
+        console.log(response.id)
 
-    if(response.output_text){
+        if(response.output_text){
 
-        res.json({
-            success: true,
-            payload: response.output_text,
-            response_id: response.id
-        })
+            res.status(200).send({
+                success: true,
+                payload: response.output_text,
+                response_id: response.id
+            })
 
-    }else {
+        }else {
 
-        res.json({
+            res.status(400).send({
+                success: false,
+                payload: "bad request",
+                response_id: ""
+            })
+        }
+
+    }catch(err){
+        res.status(500).send({
             success: false,
-            payload: "bad request",
+            payload: "message send failed",
             response_id: ""
         })
     }
-
-
-
 })
 
 
