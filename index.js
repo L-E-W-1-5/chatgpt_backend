@@ -136,7 +136,7 @@ try {
 app.post('/api', async(req, res) => {
 
 
-    const question = req.body.data.question.trim();
+    const request = req.body.data.question.trim();
 
     console.log(req.body.data);
 
@@ -158,7 +158,7 @@ app.post('/api', async(req, res) => {
 
         const response = await client.responses.create({
             model: "gpt-4.1-nano",
-            input: question,
+            input: request,
             max_output_tokens: 800,
             previous_response_id: previous_id
         });
@@ -185,12 +185,79 @@ app.post('/api', async(req, res) => {
         }
 
     }catch(err){
+
+        console.log(err)
+
         res.status(500).send({
             success: false,
             payload: "message send failed",
             response_id: ""
-        })
+        });
     }
+})
+
+
+app.post('/image', async(req, res) => {
+    console.log(req.body.data);
+
+    const request = req.body.data.question;
+
+    var previous_id;
+
+    if(req.body.data.previous_id != null){
+
+        previous_id = req.body.data.previous_id;
+
+    }else{
+
+        previous_id = null;
+    }
+
+
+    try{
+
+        // const response = await client.images.generate({
+        //     model: "gpt-image-1",
+        //     prompt: request,
+        //     n:1,
+        //     size:'1024x1024'
+        // });
+
+        // const response = await client.responses.create({
+        //     model: "gpt-4.1-mini",
+        //     input: request,
+        //     tools: [{type: "image_generation"}],
+        // })
+
+        // const response = await client.responses.create({
+        //   model: "dall-e-3",
+        //     input: request,
+         
+        // });
+
+        const response = await client.images.generate({
+      model: "dall-e-3",
+      prompt: request,
+      n: 1,
+      size: "1024x1024"
+    });
+
+        console.log(response);
+
+        const imageUrl = response.data[0].url;
+
+        res.status(200).send({
+            success: true,
+            payload: imageUrl.data[0].url,
+            response_id: 5
+
+        })
+    }catch(err){
+        console.log(err);
+    }
+
+
+
 })
 
 
