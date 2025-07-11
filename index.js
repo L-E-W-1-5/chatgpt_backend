@@ -248,7 +248,7 @@ app.post('/image', async(req, res) => {
 
         res.status(200).send({
             success: true,
-            payload: imageUrl.data[0].url,
+            payload: imageUrl,
             response_id: 5
 
         })
