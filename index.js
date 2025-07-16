@@ -135,10 +135,10 @@ try {
 // API Endpoint 
 app.post('/api', async(req, res) => {
 
-
+console.log(req.body.data);
     const request = req.body.data.question.trim();
 
-    console.log(req.body.data);
+    
 
     var previous_id;
 
