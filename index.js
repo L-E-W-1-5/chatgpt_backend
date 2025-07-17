@@ -216,44 +216,43 @@ app.post('/image', async(req, res) => {
 
     try{
 
-        // const response = await client.images.generate({
-        //     model: "gpt-image-1",
-        //     prompt: request,
-        //     n:1,
-        //     size:'1024x1024'
-        // });
-
-        // const response = await client.responses.create({
-        //     model: "gpt-4.1-mini",
-        //     input: request,
-        //     tools: [{type: "image_generation"}],
-        // })
-
-        // const response = await client.responses.create({
-        //   model: "dall-e-3",
-        //     input: request,
-         
-        // });
-
         const response = await client.images.generate({
-      model: "dall-e-3",
-      prompt: request,
-      n: 1,
-      size: "1024x1024"
-    });
+            model: "dall-e-3",
+            prompt: request,
+            n: 1,
+            size: "1024x1024"
+        });
 
-        console.log(response);
+        console.log('226', response);
 
-        const imageUrl = response.data[0].url;
+        if(response.data[0].url){
 
-        res.status(200).send({
-            success: true,
-            payload: imageUrl,
-            response_id: 5
+            const imageUrl = response.data[0].url;
 
-        })
+            res.status(200).send({
+                success: true,
+                payload: imageUrl,
+                response_id: null
+            })
+
+        }else{
+
+            res.status(500).send({
+                success: false,
+                payload: "bad request",
+                response_id: null
+            })
+        }
+
     }catch(err){
-        console.log(err);
+
+        console.log('249', err);
+
+        res.status(400).send({
+            success: false,
+            payload: err.message || JSON.stringify(err),
+            response_id: null
+        })
     }
 
 
