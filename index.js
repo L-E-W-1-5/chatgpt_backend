@@ -99,7 +99,7 @@ try {
 
                 res.status(500).send({
                     success: false,
-                    payload: error,
+                    payload: error.message,
                 });
 
             } else{
