@@ -64,13 +64,11 @@ app.post('/', (req, res) => {
 // Email Endpoint
 app.post('/email', (req, res) => {
 
-    console.log(req.body);
-
     const subject = req.body.subject;
-    const recipient = req.body.recipient;
-    const text = req.body.text;
 
-    console.log(subject, recipient, text);
+    const recipient = req.body.recipient;
+
+    const text = req.body.text;
 
 try {
 
