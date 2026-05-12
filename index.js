@@ -218,15 +218,17 @@ app.post('/image', async(req, res) => {
             model: "gpt-image-1",
             prompt: request,
             n: 1,
-            size: "1024x1024",
-            response_format: "url"
+            size: "1024x1024"
         });
 
-        console.log('226', response.data[0].url ? response.data[0].url : response.data ? response.data : "format error in response");
+        console.log('226', response.data[0].b64_json ? response.data[0].url.b64_json : response.data ? response.data : "format error in response");
 
-        if(response.data[0].url){
+        if(response.data[0].b64_json){
 
-            const imageUrl = response.data[0].url;
+            
+            
+            const b64 = response.data[0].b64_json;
+const imageUrl = `data:image/png;base64,${b64}`;
 
             res.status(200).send({
                 success: true,
