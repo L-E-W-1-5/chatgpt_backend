@@ -221,7 +221,7 @@ app.post('/image', async(req, res) => {
             size: "1024x1024"
         });
 
-        console.log('226', response);
+        console.log('226', response.data[0].url ? response.data[0].url : response.data ? response.data : "format error in response");
 
         if(response.data[0].url){
 
