@@ -218,7 +218,8 @@ app.post('/image', async(req, res) => {
             model: "gpt-image-1",
             prompt: request,
             n: 1,
-            size: "1024x1024"
+            size: "1024x1024",
+            response_format: "url"
         });
 
         console.log('226', response.data[0].url ? response.data[0].url : response.data ? response.data : "format error in response");
